@@ -1,0 +1,66 @@
+
+library(fExtremes)
+library(data.table)
+
+### Dponnées
+donneesVagues<-load("C:/Users/F4rr3ll/OneDrive/Documents/donneesVagues.RData")
+View(donneesVagues)
+donneesStations=buoysInfos
+View(donneesStations)
+######   Station 1 Référence
+
+station_SA<-donneesVague[,1:2]
+plot(station_SA)
+
+str(station_SA)
+
+######  Extraction année
+
+Annee=substr(station_SA[,'date'],1,4)
+station_1<-data.frame(Annee,station_SA)
+
+# Station Par année
+StationSA=station_1[,-2]
+                            ############################################
+                            #######                               ######
+                            #######  METHODE DES MAXIMAS PAR BLOC ######
+                            #######                               ######
+                            ############################################
+
+### Extraction des max par bloc,on choisit ici des blocs annuels Correspondant au nombre d'années
+
+## Extraction de chaque année
+
+# Fonction bloc par an
+
+bloc_an<-function (annee) {
+  
+  #Description : Cette fonction permet d'extraire les max par an
+  #Variables : annee
+  #Sortie :   Elle retourne un dataframe avec deux colonnes:l'annee et les données associées à 
+  #chaque heure de l'année
+      #Exemple : si annee=1962,elle nous retournera le bloc 1962 avec toutes ses données
+
+  stat_an=subset(StationSA, StationSA[,"Annee"] == annee)
+  return(max(stat_an[,2]))
+}
+
+##exemple
+bloc_an(1961)
+
+#Construction du tableaux des max par bloc qui nous retournera un tableau à deux colonnes: 
+#l'année et son max
+
+maxima <- data.frame()
+for (i in 0:51) 
+  {
+ 
+   maxima <- rbind(maxima,cbind(1961+i,bloc_an(1961+i)))
+  
+  }
+
+# Changement de noms de colonnes
+maxima<-setnames(maxima, old=c("V1","V2"), new=c("Annee", "Max"))
+
+#Représentation graphique des max par blocs 
+plot(maxima,col="red")
