@@ -17,14 +17,14 @@ df_stat<-function(df){
   #Presentation: Between summary and initiales values,we have a row with "values" as values
     
     #=============  mea,min,max,median       ==================#
-    mean_col=round(apply(df, 2, mean),digits=3)
-    min_col=round(apply(df, 2,  min),digits=3)
-    max_col =round(apply(df, 2, max),digits=3)
-    median_col=round(apply(df,2,median),digits=3)
+    mean_col=round(apply(df, 2, mean, na.rm = TRUE),digits=3)
+    min_col=round(apply(df, 2,  min, na.rm = TRUE),digits=3)
+    max_col =round(apply(df, 2, max, na.rm = TRUE),digits=3)
+    median_col=round(apply(df,2,median, na.rm = TRUE),digits=3)
     #=============  ENd mea,min,max,median   ==================#
     
     #=============     Quantiles             ==================#
-    quant=apply(df,2,quantile)
+    quant=apply(df,2,quantile, na.rm = TRUE)
     first=quant[2,]
     third=quant[4,]
     #=============     ENd Quantiles        ===================#
@@ -34,6 +34,6 @@ df_stat<-function(df){
     mix=rbind(min_col,first,median_col,mean_col,third,max_col)
     mix_df=as.data.frame(mix) 
     values=rep("Values",ncol(df))
-    df_stat=rbind(mix_df,values,df)
+    df_stat=rbind(mix_df,values,df)  # Remove df and values to show just the summary
   return(df_stat)
 }
