@@ -1,0 +1,32 @@
+df_stat<-function(df){
+  # Author : DF 02-03-2017
+  #User Dr Leadi :) 
+  #Description:
+  
+  #This function allows us to show smmary of a df on the top of the df
+  
+  #Requirements: Packg dplyr
+  
+  #Summary:
+  #Mean
+  #Min
+  #Max
+  #...
+  
+  #Return: the df with summary on the top
+  #Presentation: Between summary and initiales values,we have a row with "values" as values
+   
+    mean_col=apply(df, 2, mean)
+    min_col=apply(df, 2,  min)
+    max_col =apply(df, 2, max)
+    median_col=apply(df,2,median)
+    #======Quantiles==========#
+    quant=apply(df,2,quantile)
+    first=quant[2,]
+    third=quant[4,]
+    mix=rbind(min_col,first,median_col,mean_col,third,max_col)
+    mix_df=as.data.frame(mix) 
+    values=rep("Values",ncol(df))
+    df_stat=rbind(mix_df,values,df)
+  return(df_stat)
+}
