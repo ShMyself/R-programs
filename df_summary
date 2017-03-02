@@ -8,22 +8,29 @@ df_stat<-function(df){
   #Requirements: Packg dplyr
   
   #Summary:
-  #Mean
-  #Min
-  #Max
+  #mean_col =Mean 
+  #min_col=Min
+  #max_col=Max
   #...
   
   #Return: the df with summary on the top
   #Presentation: Between summary and initiales values,we have a row with "values" as values
-   
-    mean_col=apply(df, 2, mean)
-    min_col=apply(df, 2,  min)
-    max_col =apply(df, 2, max)
-    median_col=apply(df,2,median)
-    #======Quantiles==========#
+    
+    #=============  mea,min,max,median       ==================#
+    mean_col=round(apply(df, 2, mean),digits=3)
+    min_col=round(apply(df, 2,  min),digits=3)
+    max_col =round(apply(df, 2, max),digits=3)
+    median_col=round(apply(df,2,median),digits=3)
+    #=============  ENd mea,min,max,median   ==================#
+    
+    #=============     Quantiles             ==================#
     quant=apply(df,2,quantile)
     first=quant[2,]
     third=quant[4,]
+    #=============     ENd Quantiles        ===================#
+    
+    #============= Dataframe construction   ===================#
+    
     mix=rbind(min_col,first,median_col,mean_col,third,max_col)
     mix_df=as.data.frame(mix) 
     values=rep("Values",ncol(df))
