@@ -1,0 +1,12 @@
+change_col<-function(cols,df)
+  {
+  #Desc: change col place
+  #Var: col vect ;eg: cols<-c("col1","col2"..."coln")
+  
+  df <- df[, c(cols, setdiff(names(df), cols))]
+  return(df)
+  }
+
+#cols <- c("AGE_BEN_SNDS", "BEN_RES_REG")
+
+#View(change_col(cols,df))
